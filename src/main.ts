@@ -4,12 +4,13 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './config/swagger.config';
 import { Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { Transport } from '@nestjs/microservices';
 import * as config from 'config';
 import * as compression from 'compression';
-import { ratelimitConfig } from './config/ratelimit.config';
 import * as helmet from 'helmet';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
+import { ratelimitConfig } from './config/ratelimit.config';
 dotenv.config();
 
 async function bootstrap() {
@@ -37,15 +38,22 @@ async function bootstrap() {
   app.use(helmet());
   app.use(compression());
   const port = process.env.PORT || serverConfig.port;
-  await app.listen(port);
-
-  logger.debug(`NODE_ENV: ${process.env.NODE_ENV}`);
-  logger.debug(`DB_HOSTNAME: ${process.env.DB_HOSTNAME}`);
-  logger.debug(`DB_PORT: ${process.env.DB_PORT}`);
-  logger.debug(`DB_USERNAME: ${process.env.DB_USERNAME}`);
-  logger.debug(`DB_PASSWORD: ${process.env.DB_PASSWORD}`);
-  logger.debug(`DB_DB_NAME: ${process.env.DB_DB_NAME}`);
-
-  logger.log(`Application listening on port ${port} 🚀`);
+  app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: [
+        'amqps://xoquktxw:s5bI1babPTq84cWmCsXGKBYNMsZViPGV@fox.rmq.cloudamqp.com/xoquktxw',
+      ],
+      queue: 'lead_queue',
+      noAck: false,
+      queueOptions: {
+        durable: false,
+      },
+    },
+  });
+  await app.startAllMicroservicesAsync();
+  await app.listen(port, () =>
+    console.log('Lead app running on localhost:%s', port),
+  );
 }
 bootstrap();

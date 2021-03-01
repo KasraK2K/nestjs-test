@@ -19,3 +19,10 @@ jwt:
 pagination:
   page: 1
   limit: 10
+
+RMQ:
+  urls:
+    [
+      'amqps://xoquktxw:s5bI1babPTq84cWmCsXGKBYNMsZViPGV@fox.rmq.cloudamqp.com/xoquktxw',
+    ]
+  queue: 'lead_queue'
