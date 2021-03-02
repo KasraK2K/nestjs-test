@@ -11,13 +11,18 @@ import {
   ParseIntPipe,
   Query,
   ParseUUIDPipe,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { DeleteResult } from 'typeorm';
 import * as config from 'config';
+import * as fs from 'fs';
+import * as csv from 'csv-parser';
 import { LeadService } from './lead.service';
 import { LeadCredentialsDto } from './dto/lead-credentials.dto';
 import { LeadEntity } from './entities/lead.entity';
-import { Pagination } from 'nestjs-typeorm-paginate';
-import { DeleteResult } from 'typeorm';
 
 const pagination = config.get('pagination');
 const server = config.get('pagination');
@@ -67,5 +72,11 @@ export class LeadController {
     @Param('leadId', ParseUUIDPipe) leadId: string,
   ): Promise<DeleteResult> {
     return await this.leadService.deleteLead(leadId);
+  }
+
+  @Post('/bulk/insert')
+  @UseInterceptors(FileInterceptor('file'))
+  bulkInsert(@UploadedFile() file: Express.Multer.File) {
+    console.log(file.buffer.toString());
   }
 }
