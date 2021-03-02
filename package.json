@@ -1,8 +1,8 @@
 {
   "name": "lead-app",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "make with love for avakatan",
+  "author": "Kasra Karami <Kasra.Karami.KK@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
