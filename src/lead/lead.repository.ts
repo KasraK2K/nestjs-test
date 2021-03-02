@@ -12,6 +12,8 @@ import {
   paginate,
   Pagination,
 } from 'nestjs-typeorm-paginate';
+import { bulkToLeadObject } from 'src/common/utils/bulk.utils';
+import { BulkInsertResponse } from './interfaces/lead.interface';
 
 @EntityRepository(LeadEntity)
 export class LeadRepository extends Repository<LeadEntity> {
@@ -19,13 +21,16 @@ export class LeadRepository extends Repository<LeadEntity> {
 
   async createLead(
     leadCredentialsDto: LeadCredentialsDto,
+    debug: boolean = false,
   ): Promise<LeadEntity> {
     const lead = new LeadEntity();
     _.assign(lead, leadCredentialsDto);
     try {
       await this.save(lead);
     } catch (error) {
-      if (error.code === '23505') throw new ConflictException(error.detail);
+      if (debug) throw error;
+      else if (error.code === '23505')
+        throw new ConflictException(error.detail);
       else throw new InternalServerErrorException(error.message);
     }
     return lead;
@@ -59,5 +64,30 @@ export class LeadRepository extends Repository<LeadEntity> {
 
   async deleteLead(leadId: string): Promise<DeleteResult> {
     return await this.delete(leadId);
+  }
+
+  async bulkInsert(file: Express.Multer.File): Promise<BulkInsertResponse> {
+    const errors = [];
+    const leads = bulkToLeadObject(file);
+    for (const bulkData of leads) {
+      const errors = [];
+      const leads = bulkToLeadObject(file);
+      for (const lead of leads)
+        try {
+          await this.createLead(lead, true);
+        } catch (error) {
+          if (error.code === '23505')
+            errors.push({ ...lead, error: 'email or phone already exists' });
+          else
+            errors.push({
+              ...lead,
+              error: 'email/phone not provided or invalid',
+            });
+        }
+      const all = leads.length;
+      const failds = errors.length;
+      const success = all - failds;
+      return { all, success, failds, reason: errors };
+    }
   }
 }

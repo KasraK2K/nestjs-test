@@ -18,11 +18,11 @@ import { Pagination } from 'nestjs-typeorm-paginate';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
 import * as config from 'config';
-import * as fs from 'fs';
-import * as csv from 'csv-parser';
+import * as _ from 'lodash';
 import { LeadService } from './lead.service';
 import { LeadCredentialsDto } from './dto/lead-credentials.dto';
 import { LeadEntity } from './entities/lead.entity';
+import { bulkToLeadObject } from 'src/common/utils/bulk.utils';
 
 const pagination = config.get('pagination');
 const server = config.get('pagination');
@@ -36,8 +36,9 @@ export class LeadController {
   @Post()
   async createLead(
     @Body(ValidationPipe) leadCredentialsDto: LeadCredentialsDto,
+    debug: boolean = false,
   ): Promise<LeadEntity> {
-    return await this.leadService.createLead(leadCredentialsDto);
+    return await this.leadService.createLead(leadCredentialsDto, debug);
   }
 
   @Get()
@@ -76,7 +77,7 @@ export class LeadController {
 
   @Post('/bulk/insert')
   @UseInterceptors(FileInterceptor('file'))
-  bulkInsert(@UploadedFile() file: Express.Multer.File) {
-    console.log(file.buffer.toString());
+  async bulkInsert(@UploadedFile() file: Express.Multer.File) {
+    return await this.leadService.bulkInsert(file);
   }
 }

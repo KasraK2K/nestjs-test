@@ -16,8 +16,9 @@ export class LeadService {
 
   async createLead(
     leadCredentialsDto: LeadCredentialsDto,
+    debug: boolean = false,
   ): Promise<LeadEntity> {
-    return await this.leadRepository.createLead(leadCredentialsDto);
+    return await this.leadRepository.createLead(leadCredentialsDto, debug);
   }
 
   async getAllLead(
@@ -39,5 +40,9 @@ export class LeadService {
 
   async deleteLead(leadId: string): Promise<DeleteResult> {
     return await this.leadRepository.deleteLead(leadId);
+  }
+
+  async bulkInsert(file: Express.Multer.File) {
+    return await this.leadRepository.bulkInsert(file);
   }
 }
