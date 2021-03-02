@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { rabbitmqOptions } from './config/rabbitmq.config';
 import { typeOrmConfig } from './config/typeorm.config';
+import { LeadModule } from './lead/lead.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { typeOrmConfig } from './config/typeorm.config';
         options: rabbitmqOptions,
       },
     ]),
+    LeadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

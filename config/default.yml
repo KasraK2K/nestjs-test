@@ -9,7 +9,7 @@ server:
 db:
   type: 'postgres'
   port: 5432
-  database: 'test'
+  database: 'avakatan'
   cache:
     time: 54000000
 
