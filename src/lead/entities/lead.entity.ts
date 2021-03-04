@@ -14,6 +14,9 @@ import {
 @Unique(['email'])
 @Unique(['cellphone'])
 export class LeadEntity extends BaseEntity {
+  /* -------------------------------------------------------------------------- */
+  /*                                   Columns                                  */
+  /* -------------------------------------------------------------------------- */
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -38,8 +41,6 @@ export class LeadEntity extends BaseEntity {
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
-    nullable: true,
-    default: null,
   })
   updated_at: Date;
 
@@ -53,4 +54,8 @@ export class LeadEntity extends BaseEntity {
 
   @VersionColumn()
   version: number;
+
+  /* -------------------------------------------------------------------------- */
+  /*                                  Relations                                 */
+  /* -------------------------------------------------------------------------- */
 }

@@ -35,7 +35,7 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
   async GetAllLeadManager(
     options: IPaginationOptions,
   ): Promise<Pagination<LeadManagerEntity>> {
-    const leadManagers = this.createQueryBuilder('lead-managers');
+    const leadManagers = await this.createQueryBuilder('lead-managers');
     return await paginate<LeadManagerEntity>(leadManagers, options);
   }
 

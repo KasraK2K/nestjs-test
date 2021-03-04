@@ -49,7 +49,7 @@ export class LeadRepository extends Repository<LeadEntity> {
   async getAllLead(
     options: IPaginationOptions,
   ): Promise<Pagination<LeadEntity>> {
-    const leads = this.createQueryBuilder('lead');
+    const leads = await this.createQueryBuilder('lead');
     return await paginate<LeadEntity>(leads, options);
   }
 

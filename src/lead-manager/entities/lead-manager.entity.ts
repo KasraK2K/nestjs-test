@@ -11,6 +11,9 @@ import {
 
 @Entity('lead-managers')
 export class LeadManagerEntity extends BaseEntity {
+  /* -------------------------------------------------------------------------- */
+  /*                                   Columns                                  */
+  /* -------------------------------------------------------------------------- */
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -26,8 +29,6 @@ export class LeadManagerEntity extends BaseEntity {
   @UpdateDateColumn({
     name: 'updated_at',
     type: 'timestamp',
-    nullable: true,
-    default: null,
   })
   updated_at: Date;
 
@@ -41,4 +42,8 @@ export class LeadManagerEntity extends BaseEntity {
 
   @VersionColumn()
   version: number;
+
+  /* -------------------------------------------------------------------------- */
+  /*                                  Relations                                 */
+  /* -------------------------------------------------------------------------- */
 }
