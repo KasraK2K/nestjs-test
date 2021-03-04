@@ -1,5 +1,10 @@
 import { LeadEntity } from './entities/lead.entity';
-import { DeleteResult, EntityRepository, Repository } from 'typeorm';
+import {
+  DeleteResult,
+  EntityRepository,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 import {
   BadRequestException,
   ConflictException,
@@ -63,7 +68,11 @@ export class LeadRepository extends Repository<LeadEntity> {
     return lead;
   }
 
-  async deleteLead(leadId: string): Promise<DeleteResult> {
+  async softDeleteLead(leadId: string): Promise<UpdateResult> {
+    return await this.softDelete(leadId);
+  }
+
+  async removeLead(leadId: string): Promise<DeleteResult> {
     return await this.delete(leadId);
   }
 

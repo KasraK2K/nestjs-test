@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 import * as config from 'config';
 import { LeadService } from './lead.service';
 import { LeadCredentialsDto } from './dto/lead-credentials.dto';
@@ -70,10 +70,17 @@ export class LeadController {
   }
 
   @Delete('/:leadId')
-  async deleteLead(
+  async softDeleteLead(
+    @Param('leadId', ParseUUIDPipe) leadId: string,
+  ): Promise<UpdateResult> {
+    return await this.leadService.softDeleteLead(leadId);
+  }
+
+  @Delete('/remove/:leadId')
+  async removeLead(
     @Param('leadId', ParseUUIDPipe) leadId: string,
   ): Promise<DeleteResult> {
-    return await this.leadService.deleteLead(leadId);
+    return await this.leadService.removeLead(leadId);
   }
 
   @Post('/bulk/insert')

@@ -19,7 +19,7 @@ import { ApiTags } from '@nestjs/swagger';
 import * as config from 'config';
 import { LeadManagerEntity } from './entities/lead-manager.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
 const pagination = config.get('pagination');
 const server = config.get('server');
@@ -71,9 +71,16 @@ export class LeadManagerController {
   }
 
   @Delete('/:leadManagerId')
-  async deleteLeadManager(
+  async softDeleteLeadManager(
+    @Param('leadManagerId', ParseUUIDPipe) leadManagerId: string,
+  ): Promise<UpdateResult> {
+    return await this.leadManagerService.softDeleteLeadManager(leadManagerId);
+  }
+
+  @Delete('/remove/:leadManagerId')
+  async removeLeadManager(
     @Param('leadManagerId', ParseUUIDPipe) leadManagerId: string,
   ): Promise<DeleteResult> {
-    return await this.leadManagerService.deleteLeadManager(leadManagerId);
+    return await this.leadManagerService.removeLeadManager(leadManagerId);
   }
 }

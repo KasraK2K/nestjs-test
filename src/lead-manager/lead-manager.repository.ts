@@ -1,4 +1,9 @@
-import { DeleteResult, EntityRepository, Repository } from 'typeorm';
+import {
+  DeleteResult,
+  EntityRepository,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 import {
   ConflictException,
   InternalServerErrorException,
@@ -53,7 +58,11 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
     return leadManager;
   }
 
-  async deleteLeadManager(leadManagerId: string): Promise<DeleteResult> {
+  async softDeleteLeadManager(leadManagerId: string): Promise<UpdateResult> {
+    return await this.softDelete(leadManagerId);
+  }
+
+  async removeLeadManager(leadManagerId: string): Promise<DeleteResult> {
     return await this.delete(leadManagerId);
   }
 }
