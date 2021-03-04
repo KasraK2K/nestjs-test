@@ -11,13 +11,13 @@ import { LeadManagerModule } from './lead-manager/lead-manager.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
-    // ClientsModule.register([
-    //   {
-    //     name: 'APP_SERVICE',
-    //     transport: Transport.RMQ,
-    //     options: rabbitmqOptions,
-    //   },
-    // ]),
+    ClientsModule.register([
+      {
+        name: 'APP_SERVICE',
+        transport: Transport.RMQ,
+        options: rabbitmqOptions,
+      },
+    ]),
     LeadModule,
     LeadManagerModule,
   ],

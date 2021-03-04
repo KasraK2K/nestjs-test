@@ -12,22 +12,22 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(
     private readonly appService: AppService,
-  ) // @Inject('APP_SERVICE') private readonly client: ClientProxy,
-  {}
+    @Inject('APP_SERVICE') private readonly client: ClientProxy,
+  ) {}
 
   @Get()
   getHello(): string {
-    // this.client.emit('hello', 'do something please!');
+    this.client.emit('hello', 'do something please!');
     return this.appService.getHello();
   }
 
-  // @MessagePattern('hello')
-  // async hello(@Payload() data: string, @Ctx() context: RmqContext) {
-  //   const channel = context.getChannelRef();
-  //   const originalMsg = context.getMessage();
+  @MessagePattern('hello')
+  async hello(@Payload() data: string, @Ctx() context: RmqContext) {
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
 
-  //   console.log(context.getPattern(), data);
+    console.log(context.getPattern(), data);
 
-  //   channel.ack(originalMsg);
-  // }
+    channel.ack(originalMsg);
+  }
 }
