@@ -5,6 +5,7 @@ import { LeadCredentialsDto } from './dto/lead-credentials.dto';
 import { LeadEntity } from './entities/lead.entity';
 import { IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { BulkInsertResponseInterface } from './interfaces/lead.interface';
 
 @Injectable()
 export class LeadService {
@@ -46,7 +47,9 @@ export class LeadService {
     return await this.leadRepository.removeLead(leadId);
   }
 
-  async bulkInsert(file: Express.Multer.File) {
+  async bulkInsert(
+    file: Express.Multer.File,
+  ): Promise<BulkInsertResponseInterface> {
     return await this.leadRepository.bulkInsert(file);
   }
 }

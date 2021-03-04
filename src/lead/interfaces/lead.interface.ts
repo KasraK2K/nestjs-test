@@ -1,14 +1,21 @@
-export interface BulkInsertResponse {
+export interface BulkInsertResponseInterface {
   all: number;
   success: number;
   failds: number;
-  reason: ErrorReason[];
+  reason: ErrorReasonInterface[];
 }
 
-export interface ErrorReason {
+export interface ErrorReasonInterface {
   name: string;
   family_name: string;
   email: string;
   cellphone: string;
   error: string;
+}
+
+export interface LeadInterface {
+  name: string;
+  family_name: string;
+  email: string;
+  cellphone: string;
 }

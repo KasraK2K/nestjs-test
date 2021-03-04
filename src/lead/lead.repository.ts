@@ -19,7 +19,11 @@ import {
   Pagination,
 } from 'nestjs-typeorm-paginate';
 import { bulkToLeadObject } from 'src/common/utils/bulk.utils';
-import { BulkInsertResponse } from './interfaces/lead.interface';
+import {
+  BulkInsertResponseInterface,
+  ErrorReasonInterface,
+  LeadInterface,
+} from './interfaces/lead.interface';
 
 @EntityRepository(LeadEntity)
 export class LeadRepository extends Repository<LeadEntity> {
@@ -76,29 +80,27 @@ export class LeadRepository extends Repository<LeadEntity> {
     return await this.delete(leadId);
   }
 
-  async bulkInsert(file: Express.Multer.File): Promise<BulkInsertResponse> {
+  async bulkInsert(
+    file: Express.Multer.File,
+  ): Promise<BulkInsertResponseInterface> {
     if (!file) throw new BadRequestException('file not found.');
-    const errors = [];
-    const leads = bulkToLeadObject(file);
-    for (const bulkData of leads) {
-      const errors = [];
-      const leads = bulkToLeadObject(file);
-      for (const lead of leads)
-        try {
-          await this.createLead(lead, true);
-        } catch (error) {
-          if (error.code === '23505')
-            errors.push({ ...lead, error: 'email or phone already exists' });
-          else
-            errors.push({
-              ...lead,
-              error: 'email/phone not provided or invalid',
-            });
-        }
-      const all = leads.length;
-      const failds = errors.length;
-      const success = all - failds;
-      return { all, success, failds, reason: errors };
-    }
+    const errors: ErrorReasonInterface[] = [];
+    const leads: LeadInterface[] = bulkToLeadObject(file);
+    for (const lead of leads)
+      try {
+        await this.createLead(lead, true);
+      } catch (error) {
+        if (error.code === '23505')
+          errors.push({ ...lead, error: 'email or phone already exists' });
+        else
+          errors.push({
+            ...lead,
+            error: 'email/phone not provided or invalid',
+          });
+      }
+    const all = leads.length;
+    const failds = errors.length;
+    const success = all - failds;
+    return { all, success, failds, reason: errors };
   }
 }

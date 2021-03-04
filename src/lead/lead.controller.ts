@@ -23,6 +23,7 @@ import { LeadCredentialsDto } from './dto/lead-credentials.dto';
 import { LeadEntity } from './entities/lead.entity';
 import { bulkToLeadObject } from 'src/common/utils/bulk.utils';
 import { ApiTags } from '@nestjs/swagger';
+import { BulkInsertResponseInterface } from './interfaces/lead.interface';
 
 const pagination = config.get('pagination');
 const server = config.get('server');
@@ -85,7 +86,9 @@ export class LeadController {
 
   @Post('/bulk/insert')
   @UseInterceptors(FileInterceptor('file'))
-  async bulkInsert(@UploadedFile() file: Express.Multer.File) {
+  async bulkInsert(
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<BulkInsertResponseInterface> {
     return await this.leadService.bulkInsert(file);
   }
 }
