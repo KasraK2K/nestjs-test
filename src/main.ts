@@ -13,6 +13,8 @@ import * as express from 'express';
 import { ratelimitConfig } from './config/ratelimit.config';
 dotenv.config();
 
+const RMQConfig = config.get('RMQ');
+
 async function bootstrap() {
   const serverConfig = config.get('server');
   const logger = new Logger(bootstrap.name);
@@ -38,20 +40,18 @@ async function bootstrap() {
   app.use(helmet());
   app.use(compression());
   const port = process.env.PORT || serverConfig.port;
-  app.connectMicroservice({
-    transport: Transport.RMQ,
-    options: {
-      urls: [
-        'amqps://xoquktxw:s5bI1babPTq84cWmCsXGKBYNMsZViPGV@fox.rmq.cloudamqp.com/xoquktxw',
-      ],
-      queue: 'lead_queue',
-      noAck: false,
-      queueOptions: {
-        durable: false,
-      },
-    },
-  });
-  await app.startAllMicroservicesAsync();
+  // app.connectMicroservice({
+  //   transport: Transport.RMQ,
+  //   options: {
+  //     urls: [RMQConfig.urls],
+  //     queue: RMQConfig.queue,
+  //     noAck: false,
+  //     queueOptions: {
+  //       durable: false,
+  //     },
+  //   },
+  // });
+  // await app.startAllMicroservicesAsync();
   await app.listen(port, () =>
     console.log('Lead app running on localhost:%s', port),
   );

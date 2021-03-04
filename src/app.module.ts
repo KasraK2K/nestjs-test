@@ -6,18 +6,20 @@ import { AppService } from './app.service';
 import { rabbitmqOptions } from './config/rabbitmq.config';
 import { typeOrmConfig } from './config/typeorm.config';
 import { LeadModule } from './lead/lead.module';
+import { LeadManagerModule } from './lead-manager/lead-manager.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
-    ClientsModule.register([
-      {
-        name: 'APP_SERVICE',
-        transport: Transport.RMQ,
-        options: rabbitmqOptions,
-      },
-    ]),
+    // ClientsModule.register([
+    //   {
+    //     name: 'APP_SERVICE',
+    //     transport: Transport.RMQ,
+    //     options: rabbitmqOptions,
+    //   },
+    // ]),
     LeadModule,
+    LeadManagerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

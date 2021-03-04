@@ -18,15 +18,16 @@ import { Pagination } from 'nestjs-typeorm-paginate';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { DeleteResult } from 'typeorm';
 import * as config from 'config';
-import * as _ from 'lodash';
 import { LeadService } from './lead.service';
 import { LeadCredentialsDto } from './dto/lead-credentials.dto';
 import { LeadEntity } from './entities/lead.entity';
 import { bulkToLeadObject } from 'src/common/utils/bulk.utils';
+import { ApiTags } from '@nestjs/swagger';
 
 const pagination = config.get('pagination');
-const server = config.get('pagination');
+const server = config.get('server');
 
+@ApiTags('leads')
 @Controller('leads')
 export class LeadController {
   private readonly logger = new Logger(LeadController.name);
@@ -60,7 +61,7 @@ export class LeadController {
     return await this.leadService.getLeadById(leadId);
   }
 
-  @Put(':leadId')
+  @Put('/:leadId')
   async updateLead(
     @Param('leadId', ParseUUIDPipe) leadId: string,
     @Body(ValidationPipe) leadCredentialsDto: LeadCredentialsDto,

@@ -1,6 +1,7 @@
 import { LeadEntity } from './entities/lead.entity';
 import { DeleteResult, EntityRepository, Repository } from 'typeorm';
 import {
+  BadRequestException,
   ConflictException,
   InternalServerErrorException,
   Logger,
@@ -67,6 +68,7 @@ export class LeadRepository extends Repository<LeadEntity> {
   }
 
   async bulkInsert(file: Express.Multer.File): Promise<BulkInsertResponse> {
+    if (!file) throw new BadRequestException('file not found.');
     const errors = [];
     const leads = bulkToLeadObject(file);
     for (const bulkData of leads) {
