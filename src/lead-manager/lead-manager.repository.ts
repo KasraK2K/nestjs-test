@@ -18,6 +18,7 @@ import {
 import { LeadManagerEntity } from './entities/lead-manager.entity';
 import { CreateLeadManagerDto } from './dto/create-lead-manager.dto';
 import { UpdateLeadManagerDto } from './dto/update-lead-manager.dto';
+import { SearchLeadManagerAndCount } from './interfaces/search.interface';
 
 @EntityRepository(LeadManagerEntity)
 export class LeadManagerRepository extends Repository<LeadManagerEntity> {
@@ -35,12 +36,29 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
   async GetAllLeadManager(
     options: IPaginationOptions,
   ): Promise<Pagination<LeadManagerEntity>> {
-    const leadManagers = await this.createQueryBuilder('lead-managers');
+    const leadManagers = await this.createQueryBuilder('lead_managers');
     return await paginate<LeadManagerEntity>(leadManagers, options);
   }
 
   async getLeadManagerById(leadManagerId: string): Promise<LeadManagerEntity> {
     return await this.findOne(leadManagerId);
+  }
+
+  async searchLeadManager(name: string): Promise<SearchLeadManagerAndCount> {
+    const queryBuilder = await this.createQueryBuilder('lead_managers').where(
+      "to_tsvector('simple', name) @@ to_tsquery('simple', :name)",
+      {
+        name: name + ':*',
+      },
+    );
+    try {
+      const resultAndCount = await queryBuilder.getManyAndCount();
+      return { result: resultAndCount[0], count: resultAndCount[1] };
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `error on search lead manager: ${error.message}`,
+      );
+    }
   }
 
   async updateLeadManager(

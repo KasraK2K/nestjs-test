@@ -1,9 +1,12 @@
+import { LeadManagerEntity } from 'src/lead-manager/entities/lead-manager.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -58,4 +61,10 @@ export class LeadEntity extends BaseEntity {
   /* -------------------------------------------------------------------------- */
   /*                                  Relations                                 */
   /* -------------------------------------------------------------------------- */
+  @OneToOne(
+    type => LeadManagerEntity,
+    leadManagerEntity => leadManagerEntity.lead,
+  )
+  @JoinColumn()
+  lead_manager: LeadManagerEntity;
 }

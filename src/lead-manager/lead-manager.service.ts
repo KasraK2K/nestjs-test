@@ -6,6 +6,7 @@ import { UpdateLeadManagerDto } from './dto/update-lead-manager.dto';
 import { LeadManagerEntity } from './entities/lead-manager.entity';
 import { IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { SearchLeadManagerAndCount } from './interfaces/search.interface';
 
 @Injectable()
 export class LeadManagerService {
@@ -32,6 +33,10 @@ export class LeadManagerService {
 
   async getLeadManagerById(leadManagerId: string): Promise<LeadManagerEntity> {
     return await this.leadManagerRepository.getLeadManagerById(leadManagerId);
+  }
+
+  async searchLeadManager(name: string): Promise<SearchLeadManagerAndCount> {
+    return await this.leadManagerRepository.searchLeadManager(name);
   }
 
   async updateLeadManager(

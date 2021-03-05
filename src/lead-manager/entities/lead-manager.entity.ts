@@ -1,15 +1,17 @@
+import { LeadEntity } from 'src/lead/entities/lead.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 
-@Entity('lead-managers')
+@Entity('lead_managers')
 export class LeadManagerEntity extends BaseEntity {
   /* -------------------------------------------------------------------------- */
   /*                                   Columns                                  */
@@ -46,4 +48,8 @@ export class LeadManagerEntity extends BaseEntity {
   /* -------------------------------------------------------------------------- */
   /*                                  Relations                                 */
   /* -------------------------------------------------------------------------- */
+  @OneToOne(type => LeadEntity, leadEntity => leadEntity.lead_manager, {
+    eager: true,
+  })
+  lead: LeadEntity;
 }

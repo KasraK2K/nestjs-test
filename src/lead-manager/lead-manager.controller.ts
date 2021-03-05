@@ -20,6 +20,7 @@ import * as config from 'config';
 import { LeadManagerEntity } from './entities/lead-manager.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { SearchLeadManagerAndCount } from './interfaces/search.interface';
 
 const pagination = config.get('pagination');
 const server = config.get('server');
@@ -57,6 +58,13 @@ export class LeadManagerController {
     @Param('leadManagerId', ParseUUIDPipe) leadManagerId: string,
   ): Promise<LeadManagerEntity> {
     return this.leadManagerService.getLeadManagerById(leadManagerId);
+  }
+
+  @Get('/search/:name')
+  async searchLeadManager(
+    @Param('name') name: string,
+  ): Promise<SearchLeadManagerAndCount> {
+    return this.leadManagerService.searchLeadManager(name);
   }
 
   @Put('/:leadManagerId')
