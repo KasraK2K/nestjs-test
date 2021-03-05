@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Put,
   Param,
   Delete,
   ValidationPipe,
@@ -11,6 +10,7 @@ import {
   ParseIntPipe,
   Query,
   ParseUUIDPipe,
+  Patch,
 } from '@nestjs/common';
 import { LeadManagerService } from './lead-manager.service';
 import { CreateLeadManagerDto } from './dto/create-lead-manager.dto';
@@ -67,7 +67,7 @@ export class LeadManagerController {
     return this.leadManagerService.searchLeadManager(name);
   }
 
-  @Put('/:leadManagerId')
+  @Patch('/:leadManagerId')
   async updateLeadManager(
     @Param('leadManagerId') leadManagerId: string,
     @Body() updateLeadManagerDto: UpdateLeadManagerDto,

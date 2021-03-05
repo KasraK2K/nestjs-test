@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Put,
   Param,
   Delete,
   Logger,
@@ -13,6 +12,7 @@ import {
   ParseUUIDPipe,
   UseInterceptors,
   UploadedFile,
+  Patch,
 } from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -62,7 +62,7 @@ export class LeadController {
     return await this.leadService.getLeadById(leadId);
   }
 
-  @Put('/:leadId')
+  @Patch('/:leadId')
   async updateLead(
     @Param('leadId', ParseUUIDPipe) leadId: string,
     @Body(ValidationPipe) leadCredentialsDto: LeadCredentialsDto,
