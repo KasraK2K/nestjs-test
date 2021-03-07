@@ -10,6 +10,7 @@ import {
   ConflictException,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { LeadCredentialsDto } from './dto/lead-credentials.dto';
 import * as _ from 'lodash';
@@ -55,6 +56,13 @@ export class LeadRepository extends Repository<LeadEntity> {
 
   async getLeadById(leadId: string): Promise<LeadEntity> {
     return await this.findOne(leadId);
+  }
+
+  async getOldLeadToAssign() {
+    return await this.findOne({
+      where: { lead_manager: null, interest: null, deleted_at: null },
+      order: { created_at: 'DESC' },
+    });
   }
 
   async updateLead(

@@ -26,3 +26,7 @@ RMQ:
       'amqps://xoquktxw:s5bI1babPTq84cWmCsXGKBYNMsZViPGV@fox.rmq.cloudamqp.com/xoquktxw',
     ]
   queue: 'lead_queue'
+
+events:
+  leadManager:
+    free: 'leadManagerFree'

@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Generated,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -18,6 +19,10 @@ export class LeadManagerEntity extends BaseEntity {
   /* -------------------------------------------------------------------------- */
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column()
+  @Generated('increment')
+  no: number;
 
   @Column()
   name: string;

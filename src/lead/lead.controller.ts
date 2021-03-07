@@ -62,6 +62,11 @@ export class LeadController {
     return await this.leadService.getLeadById(leadId);
   }
 
+  @Get('/old/lead/to_ssign')
+  async getOldLeadToAssign() {
+    return await this.leadService.getOldLeadToAssign();
+  }
+
   @Patch('/:leadId')
   async updateLead(
     @Param('leadId', ParseUUIDPipe) leadId: string,

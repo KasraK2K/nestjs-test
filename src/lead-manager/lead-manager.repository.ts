@@ -1,6 +1,9 @@
+import { LeadRepository } from './../lead/lead.repository';
+import { LeadEntity } from './../lead/entities/lead.entity';
 import {
   DeleteResult,
   EntityRepository,
+  getCustomRepository,
   Repository,
   UpdateResult,
 } from 'typeorm';
@@ -19,10 +22,12 @@ import { LeadManagerEntity } from './entities/lead-manager.entity';
 import { CreateLeadManagerDto } from './dto/create-lead-manager.dto';
 import { UpdateLeadManagerDto } from './dto/update-lead-manager.dto';
 import { SearchLeadManagerAndCount } from './interfaces/search.interface';
+import { AssignLeadToManagerDto } from './dto/assign-lead-to-manager.dto';
 
 @EntityRepository(LeadManagerEntity)
 export class LeadManagerRepository extends Repository<LeadManagerEntity> {
   private readonly logger = new Logger(LeadManagerRepository.name);
+  private leadRepository = getCustomRepository(LeadRepository);
 
   async createLeadManager(
     createLeadManagerDto: CreateLeadManagerDto,
@@ -58,6 +63,20 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
       throw new InternalServerErrorException(
         `error on search lead manager: ${error.message}`,
       );
+    }
+  }
+
+  async assignLeadToManager(assignLeadToManagerDto: AssignLeadToManagerDto) {
+    const { leadId, leadManagerId } = assignLeadToManagerDto;
+    const lead = await this.leadRepository.getLeadById(leadId);
+    const leadManager = await this.getLeadManagerById(leadManagerId);
+    leadManager.lead = lead;
+    try {
+      return await this.save(leadManager);
+    } catch (error) {
+      if (error.code === '23505')
+        throw new ConflictException('this leadManager already have lead');
+      else throw new InternalServerErrorException(error.message);
     }
   }
 

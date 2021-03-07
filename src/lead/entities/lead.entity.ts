@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Generated,
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -24,6 +25,10 @@ export class LeadEntity extends BaseEntity {
   id: string;
 
   @Column()
+  @Generated('increment')
+  no: number;
+
+  @Column()
   name: string;
 
   @Column()
@@ -34,6 +39,9 @@ export class LeadEntity extends BaseEntity {
 
   @Column()
   cellphone: string;
+
+  @Column({ nullable: true })
+  interest: boolean;
 
   @CreateDateColumn({
     name: 'created_at',

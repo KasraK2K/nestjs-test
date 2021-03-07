@@ -32,6 +32,10 @@ export class LeadService {
     return await this.leadRepository.getLeadById(leadId);
   }
 
+  async getOldLeadToAssign() {
+    return await this.leadRepository.getOldLeadToAssign();
+  }
+
   async updateLead(
     leadId: string,
     leadCredentialsDto: LeadCredentialsDto,
