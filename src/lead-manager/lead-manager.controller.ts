@@ -79,7 +79,7 @@ export class LeadManagerController {
   @Patch('/assign')
   async assignLeadToManager(
     @Body(ValidationPipe) assignLeadToManagerDto: AssignLeadToManagerDto,
-  ) {
+  ): Promise<LeadManagerEntity> {
     return await this.leadManagerService.assignLeadToManager(
       assignLeadToManagerDto,
     );
@@ -114,7 +114,7 @@ export class LeadManagerController {
   /*                                   Events                                   */
   /* -------------------------------------------------------------------------- */
   @OnEvent(events.leadManager.free)
-  assignLeadToNewManager(leadManager: LeadManagerEntity) {
-    console.log('leadManager', leadManager);
+  async assignLeadToNewManager(leadManager: LeadManagerEntity): Promise<void> {
+    await this.leadManagerService.assignOldestLeadToManager(leadManager);
   }
 }

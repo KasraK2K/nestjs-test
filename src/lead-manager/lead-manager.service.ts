@@ -40,9 +40,19 @@ export class LeadManagerService {
     return await this.leadManagerRepository.searchLeadManager(name);
   }
 
-  async assignLeadToManager(assignLeadToManagerDto: AssignLeadToManagerDto) {
+  async assignLeadToManager(
+    assignLeadToManagerDto: AssignLeadToManagerDto,
+  ): Promise<LeadManagerEntity> {
     return await this.leadManagerRepository.assignLeadToManager(
       assignLeadToManagerDto,
+    );
+  }
+
+  async assignOldestLeadToManager(
+    leadManager: LeadManagerEntity,
+  ): Promise<LeadManagerEntity> {
+    return await this.leadManagerRepository.assignOldestLeadToManager(
+      leadManager,
     );
   }
 

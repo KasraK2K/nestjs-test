@@ -66,7 +66,9 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
     }
   }
 
-  async assignLeadToManager(assignLeadToManagerDto: AssignLeadToManagerDto) {
+  async assignLeadToManager(
+    assignLeadToManagerDto: AssignLeadToManagerDto,
+  ): Promise<LeadManagerEntity> {
     const { leadId, leadManagerId } = assignLeadToManagerDto;
     const lead = await this.leadRepository.getLeadById(leadId);
     const leadManager = await this.getLeadManagerById(leadManagerId);
@@ -77,6 +79,18 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
       if (error.code === '23505')
         throw new ConflictException('this leadManager already have lead');
       else throw new InternalServerErrorException(error.message);
+    }
+  }
+
+  async assignOldestLeadToManager(
+    leadManager: LeadManagerEntity,
+  ): Promise<LeadManagerEntity> {
+    if (leadManager.hasOwnProperty('lead'))
+      throw new ConflictException('this lead manager already has lead');
+    const lead = await this.leadRepository.getOldLeadToAssign();
+    if (lead) {
+      leadManager.lead = lead;
+      return await this.save(leadManager);
     }
   }
 
