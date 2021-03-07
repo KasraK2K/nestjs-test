@@ -10,11 +10,13 @@ import {
 } from 'typeorm';
 import {
   ConflictException,
+  Inject,
   InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common';
 import * as _ from 'lodash';
+import * as config from 'config';
 import {
   IPaginationOptions,
   paginate,

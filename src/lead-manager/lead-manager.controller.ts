@@ -1,3 +1,4 @@
+import { LeadEntity } from 'src/lead/entities/lead.entity';
 import {
   Controller,
   Get,
@@ -12,22 +13,31 @@ import {
   ParseUUIDPipe,
   Patch,
   ParseBoolPipe,
+  Inject,
 } from '@nestjs/common';
+import {
+  ClientProxy,
+  Ctx,
+  MessagePattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
+import { ApiTags } from '@nestjs/swagger';
+import * as config from 'config';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { LeadManagerService } from './lead-manager.service';
 import { CreateLeadManagerDto } from './dto/create-lead-manager.dto';
 import { UpdateLeadManagerDto } from './dto/update-lead-manager.dto';
-import { ApiTags } from '@nestjs/swagger';
-import * as config from 'config';
 import { LeadManagerEntity } from './entities/lead-manager.entity';
-import { Pagination } from 'nestjs-typeorm-paginate';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { SearchLeadManagerAndCount } from './interfaces/search.interface';
-import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { AssignLeadToManagerDto } from './dto/assign-lead-to-manager.dto';
 
 const pagination = config.get('pagination');
 const server = config.get('server');
 const events = config.get('events');
+const rabbitmq = config.get('RMQ');
 
 @ApiTags('lead-managers')
 @Controller('lead-managers')
@@ -35,6 +45,7 @@ export class LeadManagerController {
   private readonly logger = new Logger(LeadManagerController.name);
 
   constructor(
+    @Inject('LEAD_MANAGER_SERVICE') private readonly client: ClientProxy,
     private readonly leadManagerService: LeadManagerService,
     private eventEmitter: EventEmitter2,
   ) {}
@@ -109,6 +120,9 @@ export class LeadManagerController {
       leadManagerId,
       interest,
     );
+    // send intereste message
+    if (interest)
+      this.client.emit(rabbitmq.message.leadInterestedCreated, leadManager);
     // emit event to assign lead to free lead manager
     this.eventEmitter.emit(events.leadManager.free, leadManager);
     return leadManager;
@@ -135,5 +149,19 @@ export class LeadManagerController {
   async assignLeadToNewManager(leadManager: LeadManagerEntity): Promise<void> {
     if (leadManager.lead) delete leadManager.lead;
     await this.leadManagerService.assignOldestLeadToManager(leadManager);
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                                  RabbitMQ                                  */
+  /* -------------------------------------------------------------------------- */
+  @MessagePattern(rabbitmq.message.leadInterestedCreated)
+  async hello(
+    @Payload() leadManager: LeadManagerEntity,
+    @Ctx() context: RmqContext,
+  ) {
+    const channel = context.getChannelRef();
+    const originalMsg = context.getMessage();
+    console.log(`${leadManager.name} interested to a lead.`);
+    channel.ack(originalMsg);
   }
 }

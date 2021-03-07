@@ -26,6 +26,8 @@ RMQ:
       'amqps://xoquktxw:s5bI1babPTq84cWmCsXGKBYNMsZViPGV@fox.rmq.cloudamqp.com/xoquktxw',
     ]
   queue: 'lead_queue'
+  message:
+    leadInterestedCreated: 'lead_interested_created'
 
 events:
   leadManager:
