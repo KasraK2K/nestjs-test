@@ -8,11 +8,13 @@ import {
   Generated,
   OneToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 
 @Entity('lead_managers')
+@Unique(['name'])
 export class LeadManagerEntity extends BaseEntity {
   /* -------------------------------------------------------------------------- */
   /*                                   Columns                                  */

@@ -55,7 +55,9 @@ export class LeadRepository extends Repository<LeadEntity> {
   }
 
   async getLeadById(leadId: string): Promise<LeadEntity> {
-    return await this.findOne(leadId);
+    const lead = await this.findOne(leadId);
+    if (!lead) throw new NotFoundException('lead with this id not found');
+    return lead;
   }
 
   async getOldLeadToAssign() {

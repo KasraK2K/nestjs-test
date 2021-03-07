@@ -39,7 +39,13 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
     const { name } = createLeadManagerDto;
     const leadManager = new LeadManagerEntity();
     _.assign(leadManager, { name });
-    return await this.save(leadManager);
+    try {
+      return await this.save(leadManager);
+    } catch (error) {
+      if (error.code === '23505')
+        throw new ConflictException('leadManager with this name already exist');
+      else throw new InternalServerErrorException(error.message);
+    }
   }
 
   async GetAllLeadManager(
@@ -50,7 +56,10 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
   }
 
   async getLeadManagerById(leadManagerId: string): Promise<LeadManagerEntity> {
-    return await this.findOne(leadManagerId);
+    const leadManager = await this.findOne(leadManagerId);
+    if (!leadManager)
+      throw new NotFoundException('lead manager with this id not found');
+    return leadManager;
   }
 
   async searchLeadManager(name: string): Promise<SearchLeadManagerAndCount> {
@@ -134,6 +143,9 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
   }
 
   async removeLeadManager(leadManagerId: string): Promise<DeleteResult> {
+    const leadManager = await this.getLeadManagerById(leadManagerId);
+    leadManager.lead = null;
+    await this.save(leadManager);
     return await this.delete(leadManagerId);
   }
 }
