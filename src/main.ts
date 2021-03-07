@@ -52,8 +52,9 @@ async function bootstrap() {
     },
   });
   await app.startAllMicroservicesAsync();
-  await app.listen(port, () =>
-    console.log('Lead app running on localhost:%s', port),
-  );
+  if (process.env.WORKER !== 'true')
+    await app.listen(port, () =>
+      console.log('Lead app running on localhost:%s', port),
+    );
 }
 bootstrap();

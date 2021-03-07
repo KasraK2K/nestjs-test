@@ -37,7 +37,7 @@ import { AssignLeadToManagerDto } from './dto/assign-lead-to-manager.dto';
 const pagination = config.get('pagination');
 const server = config.get('server');
 const events = config.get('events');
-const rabbitmq = config.get('RMQ');
+const RMQConfig = config.get('RMQ');
 
 @ApiTags('lead-managers')
 @Controller('lead-managers')
@@ -122,7 +122,7 @@ export class LeadManagerController {
     );
     // send intereste message
     if (interest)
-      this.client.emit(rabbitmq.message.leadInterestedCreated, leadManager);
+      this.client.emit(RMQConfig.message.leadInterestedCreated, leadManager);
     // emit event to assign lead to free lead manager
     this.eventEmitter.emit(events.leadManager.free, leadManager);
     return leadManager;
@@ -154,7 +154,7 @@ export class LeadManagerController {
   /* -------------------------------------------------------------------------- */
   /*                                  RabbitMQ                                  */
   /* -------------------------------------------------------------------------- */
-  @MessagePattern(rabbitmq.message.leadInterestedCreated)
+  @MessagePattern(RMQConfig.message.leadInterestedCreated)
   async hello(
     @Payload() leadManager: LeadManagerEntity,
     @Ctx() context: RmqContext,
