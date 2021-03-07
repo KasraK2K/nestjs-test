@@ -1,6 +1,7 @@
 import { LeadRepository } from './../lead/lead.repository';
 import { LeadEntity } from './../lead/entities/lead.entity';
 import {
+  Connection,
   DeleteResult,
   EntityRepository,
   getCustomRepository,
@@ -11,6 +12,7 @@ import {
   ConflictException,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import * as _ from 'lodash';
 import {
@@ -106,6 +108,22 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
       if (error.code === '23505') throw new ConflictException(error.detail);
       else throw new InternalServerErrorException(error.message);
     }
+    return leadManager;
+  }
+
+  async isLeadManagerInterest(
+    leadManagerId: string,
+    interest: boolean,
+  ): Promise<LeadManagerEntity> {
+    const leadManager = await this.getLeadManagerById(leadManagerId);
+    if (!leadManager.lead)
+      throw new NotFoundException('This lead Manager has not any lead');
+    const lead = leadManager.lead;
+    _.assign(lead, {
+      interest,
+      lead_manager: null,
+    });
+    await this.leadRepository.save(lead);
     return leadManager;
   }
 

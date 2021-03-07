@@ -11,6 +11,7 @@ import {
   Query,
   ParseUUIDPipe,
   Patch,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { LeadManagerService } from './lead-manager.service';
 import { CreateLeadManagerDto } from './dto/create-lead-manager.dto';
@@ -38,6 +39,9 @@ export class LeadManagerController {
     private eventEmitter: EventEmitter2,
   ) {}
 
+  /* -------------------------------------------------------------------------- */
+  /*                                  Endpoints                                 */
+  /* -------------------------------------------------------------------------- */
   @Post()
   async createLeadManager(
     @Body(ValidationPipe) createLeadManagerDto: CreateLeadManagerDto,
@@ -96,6 +100,20 @@ export class LeadManagerController {
     );
   }
 
+  @Patch('/is/interest/:leadManagerId')
+  async isLeadManagerInterest(
+    @Param('leadManagerId') leadManagerId: string,
+    @Body('interest', ParseBoolPipe) interest: boolean,
+  ): Promise<LeadManagerEntity> {
+    const leadManager = await this.leadManagerService.isLeadManagerInterest(
+      leadManagerId,
+      interest,
+    );
+    // emit event to assign lead to free lead manager
+    this.eventEmitter.emit(events.leadManager.free, leadManager);
+    return leadManager;
+  }
+
   @Delete('/:leadManagerId')
   async softDeleteLeadManager(
     @Param('leadManagerId', ParseUUIDPipe) leadManagerId: string,
@@ -111,10 +129,11 @@ export class LeadManagerController {
   }
 
   /* -------------------------------------------------------------------------- */
-  /*                                   Events                                   */
+  /*                               Event Listeners                              */
   /* -------------------------------------------------------------------------- */
   @OnEvent(events.leadManager.free)
   async assignLeadToNewManager(leadManager: LeadManagerEntity): Promise<void> {
+    if (leadManager.lead) delete leadManager.lead;
     await this.leadManagerService.assignOldestLeadToManager(leadManager);
   }
 }

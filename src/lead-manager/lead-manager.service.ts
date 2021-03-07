@@ -1,11 +1,11 @@
 import { LeadManagerRepository } from './lead-manager.repository';
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
 import { CreateLeadManagerDto } from './dto/create-lead-manager.dto';
 import { UpdateLeadManagerDto } from './dto/update-lead-manager.dto';
 import { LeadManagerEntity } from './entities/lead-manager.entity';
 import { IPaginationOptions, Pagination } from 'nestjs-typeorm-paginate';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { Connection, DeleteResult, UpdateResult } from 'typeorm';
 import { SearchLeadManagerAndCount } from './interfaces/search.interface';
 import { AssignLeadToManagerDto } from './dto/assign-lead-to-manager.dto';
 
@@ -63,6 +63,16 @@ export class LeadManagerService {
     return await this.leadManagerRepository.updateLeadManager(
       leadManagerId,
       updateLeadManagerDto,
+    );
+  }
+
+  async isLeadManagerInterest(
+    leadManagerId: string,
+    interest: boolean,
+  ): Promise<LeadManagerEntity> {
+    return await this.leadManagerRepository.isLeadManagerInterest(
+      leadManagerId,
+      interest,
     );
   }
 

@@ -35,6 +35,9 @@ export class LeadController {
 
   constructor(private readonly leadService: LeadService) {}
 
+  /* -------------------------------------------------------------------------- */
+  /*                                  Endpoints                                 */
+  /* -------------------------------------------------------------------------- */
   @Post()
   async createLead(
     @Body(ValidationPipe) leadCredentialsDto: LeadCredentialsDto,
@@ -96,4 +99,8 @@ export class LeadController {
   ): Promise<BulkInsertResponseInterface> {
     return await this.leadService.bulkInsert(file);
   }
+
+  /* -------------------------------------------------------------------------- */
+  /*                               Event Listeners                              */
+  /* -------------------------------------------------------------------------- */
 }
