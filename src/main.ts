@@ -46,8 +46,10 @@ async function bootstrap() {
       urls: RMQConfig.urls,
       queue: RMQConfig.queue,
       noAck: false,
+      prefetchCount: 1,
+      persistent: true,
       queueOptions: {
-        durable: false,
+        durable: true,
       },
     },
   });

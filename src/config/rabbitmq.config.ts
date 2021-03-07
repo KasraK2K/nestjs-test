@@ -6,6 +6,6 @@ export const rabbitmqOptions = {
   urls: RMQConfig.urls,
   queue: RMQConfig.queue,
   queueOptions: {
-    durable: false,
+    durable: true,
   },
 };
