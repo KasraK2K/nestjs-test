@@ -50,7 +50,10 @@ export class LeadRepository extends Repository<LeadEntity> {
   async getAllLead(
     options: IPaginationOptions,
   ): Promise<Pagination<LeadEntity>> {
-    const leads = await this.createQueryBuilder('lead');
+    const leads = await this.createQueryBuilder('lead').orderBy(
+      'created_at',
+      'ASC',
+    );
     return await paginate<LeadEntity>(leads, options);
   }
 
@@ -63,7 +66,7 @@ export class LeadRepository extends Repository<LeadEntity> {
   async getOldLeadToAssign() {
     return await this.findOne({
       where: { lead_manager: null, interest: null, deleted_at: null },
-      order: { created_at: 'DESC' },
+      order: { created_at: 'ASC' },
     });
   }
 
