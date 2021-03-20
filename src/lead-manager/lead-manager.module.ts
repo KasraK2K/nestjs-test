@@ -4,8 +4,8 @@ import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { LeadManagerService } from './lead-manager.service';
 import { LeadManagerController } from './lead-manager.controller';
-import { LeadRepository } from 'src/lead/lead.repository';
-import { rabbitmqOptions } from 'src/config/rabbitmq.config';
+import { LeadRepository } from '../lead/lead.repository';
+import { rabbitmqOptions } from '../config/rabbitmq.config';
 
 @Module({
   imports: [

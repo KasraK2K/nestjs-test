@@ -1,4 +1,4 @@
-import { LeadManagerEntity } from 'src/lead-manager/entities/lead-manager.entity';
+import { LeadManagerEntity } from '../../lead-manager/entities/lead-manager.entity';
 import {
   BaseEntity,
   Column,

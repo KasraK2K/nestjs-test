@@ -19,7 +19,7 @@ import {
   paginate,
   Pagination,
 } from 'nestjs-typeorm-paginate';
-import { bulkToLeadObject } from 'src/common/utils/bulk.utils';
+import { bulkToLeadObject } from './../common/utils/bulk.utils';
 import {
   BulkInsertResponseInterface,
   ErrorReasonInterface,

@@ -1,4 +1,4 @@
-import { LeadEntity } from 'src/lead/entities/lead.entity';
+import { LeadEntity } from '../lead/entities/lead.entity';
 import {
   Controller,
   Get,

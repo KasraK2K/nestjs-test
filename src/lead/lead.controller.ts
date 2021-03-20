@@ -21,7 +21,6 @@ import * as config from 'config';
 import { LeadService } from './lead.service';
 import { LeadCredentialsDto } from './dto/lead-credentials.dto';
 import { LeadEntity } from './entities/lead.entity';
-import { bulkToLeadObject } from 'src/common/utils/bulk.utils';
 import { ApiTags } from '@nestjs/swagger';
 import { BulkInsertResponseInterface } from './interfaces/lead.interface';
 
