@@ -3,21 +3,30 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { LeadController } from './lead.controller';
 import { LeadService } from './lead.service';
 
+const mockLeadRepository = () => ({});
+
 describe('LeadController', () => {
-  let controller: LeadController;
-  let service: LeadService;
+  let leadController: LeadController;
+  let leadService: LeadService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [LeadController],
-      providers: [LeadService, LeadRepository],
+      providers: [
+        LeadService,
+        { provide: LeadRepository, useFactory: mockLeadRepository },
+      ],
     }).compile();
 
-    controller = module.get<LeadController>(LeadController);
-    service = module.get<LeadService>(LeadService);
+    leadController = module.get<LeadController>(LeadController);
+    leadService = module.get<LeadService>(LeadService);
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(leadController).toBeDefined();
+  });
+
+  it('should be defined', () => {
+    expect(leadService).toBeDefined();
   });
 });
