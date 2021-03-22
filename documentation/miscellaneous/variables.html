@@ -1,0 +1,563 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>lead-app documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">lead-app documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+<ol class="breadcrumb">
+  <li>Miscellaneous</li>
+  <li>Variables</li>
+</ol>
+
+<section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#bulkToLeadObject" title="src/common/utils/bulk.utils.ts"><b>bulkToLeadObject</b>&nbsp;&nbsp;&nbsp;(src/.../bulk.utils.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#dbConfig" title="src/config/typeorm.config.ts"><b>dbConfig</b>&nbsp;&nbsp;&nbsp;(src/.../typeorm.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#events" title="src/lead-manager/lead-manager.controller.ts"><b>events</b>&nbsp;&nbsp;&nbsp;(src/.../lead-manager.controller.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#logger" title="src/config/typeorm.config.ts"><b>logger</b>&nbsp;&nbsp;&nbsp;(src/.../typeorm.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#pagination" title="src/lead/lead.controller.ts"><b>pagination</b>&nbsp;&nbsp;&nbsp;(src/.../lead.controller.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#pagination" title="src/lead-manager/lead-manager.controller.ts"><b>pagination</b>&nbsp;&nbsp;&nbsp;(src/.../lead-manager.controller.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#rabbitmqOptions" title="src/config/rabbitmq.config.ts"><b>rabbitmqOptions</b>&nbsp;&nbsp;&nbsp;(src/.../rabbitmq.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ratelimitConfig" title="src/config/ratelimit.config.ts"><b>ratelimitConfig</b>&nbsp;&nbsp;&nbsp;(src/.../ratelimit.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RMQConfig" title="src/main.ts"><b>RMQConfig</b>&nbsp;&nbsp;&nbsp;(src/.../main.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RMQConfig" title="src/config/rabbitmq.config.ts"><b>RMQConfig</b>&nbsp;&nbsp;&nbsp;(src/.../rabbitmq.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#RMQConfig" title="src/lead-manager/lead-manager.controller.ts"><b>RMQConfig</b>&nbsp;&nbsp;&nbsp;(src/.../lead-manager.controller.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#server" title="src/lead/lead.controller.ts"><b>server</b>&nbsp;&nbsp;&nbsp;(src/.../lead.controller.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#server" title="src/lead-manager/lead-manager.controller.ts"><b>server</b>&nbsp;&nbsp;&nbsp;(src/.../lead-manager.controller.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#swaggerConfig" title="src/config/swagger.config.ts"><b>swaggerConfig</b>&nbsp;&nbsp;&nbsp;(src/.../swagger.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#typeOrmConfig" title="src/config/typeorm.config.ts"><b>typeOrmConfig</b>&nbsp;&nbsp;&nbsp;(src/.../typeorm.config.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>src/common/utils/bulk.utils.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="bulkToLeadObject"></a>
+                        <span class="name">
+                            <b>
+                            bulkToLeadObject</b>
+                            <a href="#bulkToLeadObject"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>file &#x3D;&gt; {
+  const bulkData &#x3D; file.buffer.toString();
+  const rows &#x3D; bulkData.split(&#x27;\r\n&#x27;);
+  const leads &#x3D; [];
+  for (const row of rows) {
+    const rowArray &#x3D; row.split(&#x27;,&#x27;);
+    leads.push({
+      name: rowArray[0],
+      family_name: rowArray[1],
+      email: rowArray[2],
+      cellphone: rowArray[3],
+    });
+  }
+  return leads;
+}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/config/typeorm.config.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dbConfig"></a>
+                        <span class="name">
+                            <b>
+                            dbConfig</b>
+                            <a href="#dbConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>config.get(&#x27;db&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="logger"></a>
+                        <span class="name">
+                            <b>
+                            logger</b>
+                            <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Logger(&#x27;TypeORMConfig&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="typeOrmConfig"></a>
+                        <span class="name">
+                            <b>
+                            typeOrmConfig</b>
+                            <a href="#typeOrmConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TypeOrmModuleOptions</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+  type: dbConfig.type,
+  host: process.env.DB_HOSTNAME || dbConfig.host,
+  port: process.env.DB_PORT || dbConfig.port,
+  username: process.env.DB_USERNAME || dbConfig.username,
+  password: process.env.DB_PASSWORD || dbConfig.password,
+  database: process.env.DB_DB_NAME || dbConfig.database,
+  entities: [__dirname + &#x27;/../**/*.entity.{js,ts}&#x27;],
+  migrations: [__dirname + &#x27;/../**/*.migration.{js,ts}&#x27;],
+  cache: true,
+  synchronize: process.env.TYPEORM_SYNC || dbConfig.synchronize,
+}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/lead-manager/lead-manager.controller.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="events"></a>
+                        <span class="name">
+                            <b>
+                            events</b>
+                            <a href="#events"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>config.get(&#x27;events&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pagination"></a>
+                        <span class="name">
+                            <b>
+                            pagination</b>
+                            <a href="#pagination"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>config.get(&#x27;pagination&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="RMQConfig"></a>
+                        <span class="name">
+                            <b>
+                            RMQConfig</b>
+                            <a href="#RMQConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>config.get(&#x27;RMQ&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="server"></a>
+                        <span class="name">
+                            <b>
+                            server</b>
+                            <a href="#server"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>config.get(&#x27;server&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/lead/lead.controller.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pagination"></a>
+                        <span class="name">
+                            <b>
+                            pagination</b>
+                            <a href="#pagination"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>config.get(&#x27;pagination&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="server"></a>
+                        <span class="name">
+                            <b>
+                            server</b>
+                            <a href="#server"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>config.get(&#x27;server&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/config/rabbitmq.config.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rabbitmqOptions"></a>
+                        <span class="name">
+                            <b>
+                            rabbitmqOptions</b>
+                            <a href="#rabbitmqOptions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+  urls: RMQConfig.urls,
+  queue: RMQConfig.queue,
+  queueOptions: {
+    durable: true,
+  },
+}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="RMQConfig"></a>
+                        <span class="name">
+                            <b>
+                            RMQConfig</b>
+                            <a href="#RMQConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>config.get(&#x27;RMQ&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/config/ratelimit.config.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ratelimitConfig"></a>
+                        <span class="name">
+                            <b>
+                            ratelimitConfig</b>
+                            <a href="#ratelimitConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: &#x27;too many request for this ip, please try again after 1 hour&#x27;,
+})</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/main.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="RMQConfig"></a>
+                        <span class="name">
+                            <b>
+                            RMQConfig</b>
+                            <a href="#RMQConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>config.get(&#x27;RMQ&#x27;)</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/config/swagger.config.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="swaggerConfig"></a>
+                        <span class="name">
+                            <b>
+                            swaggerConfig</b>
+                            <a href="#swaggerConfig"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+  options: new DocumentBuilder()
+    .setTitle(&#x27;Test API&#x27;)
+    .setDescription(&#x27;&amp;#10084;&amp;#65039; Create with love &amp;#10084;&amp;#65039;&#x27;)
+    .setVersion(&#x27;1.0&#x27;)
+    .build(),
+}</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
