@@ -1,5 +1,5 @@
 import { LeadRepository } from './lead.repository';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LeadCredentialsDto } from './dto/lead-credentials.dto';
 import { LeadEntity } from './entities/lead.entity';
@@ -29,7 +29,9 @@ export class LeadService {
   }
 
   async getLeadById(leadId: string): Promise<LeadEntity> {
-    return await this.leadRepository.getLeadById(leadId);
+    const lead = await this.leadRepository.getLeadById(leadId);
+    if (!lead) throw new NotFoundException('lead with this id not found');
+    return lead;
   }
 
   async getOldLeadToAssign() {
