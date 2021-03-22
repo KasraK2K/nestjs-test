@@ -9,7 +9,7 @@ const mockLeadRepository = () => ({
 
 describe('LeadService', () => {
   let leadService: LeadService;
-  let leadRepository: LeadRepository;
+  let leadRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -34,7 +34,7 @@ describe('LeadService', () => {
   /* ------------------------------- getAllLead ------------------------------- */
   describe('getAllLead', () => {
     it('get all lead from repository', async () => {
-      leadRepository.getAllLead = jest.fn().mockResolvedValue('someValue');
+      leadRepository.getAllLead.mockResolvedValue('someValue');
       expect(leadRepository.getAllLead).not.toHaveBeenCalled();
       const options: IPaginationOptions = {
         page: 1,
