@@ -7,6 +7,7 @@ import { IPaginationOptions } from 'nestjs-typeorm-paginate';
 const mockLeadRepository = () => ({
   getAllLead: jest.fn(),
   getLeadById: jest.fn(),
+  createLead: jest.fn(),
 });
 
 describe('LeadService', () => {
@@ -53,19 +54,11 @@ describe('LeadService', () => {
   describe('getLeadById', () => {
     // found
     it('find task by id and return the task', async () => {
-      const mockLead = {
-        no: 1,
-        name: 'kasra',
-        family_name: 'karami',
-        email: 'kasra_K2k@yahoo.com',
-        cellphone: '09183619290',
-        interest: false,
-      };
-      leadRepository.getLeadById.mockResolvedValue(mockLead);
+      leadRepository.getLeadById.mockResolvedValue('someLead');
       expect(leadRepository.getLeadById).not.toHaveBeenCalled();
       const result = await leadService.getLeadById('1');
       expect(leadRepository.getLeadById).toHaveBeenCalledWith('1');
-      expect(result).toEqual(mockLead);
+      expect(result).toEqual('someLead');
     });
 
     // not found
@@ -74,6 +67,26 @@ describe('LeadService', () => {
       expect(leadRepository.getLeadById).not.toHaveBeenCalled();
       expect(leadService.getLeadById('1')).rejects.toThrow(NotFoundException);
       expect(leadRepository.getLeadById).toHaveBeenCalledWith('1');
+    });
+  });
+
+  /* ------------------------------- createLead ------------------------------- */
+  describe('createLead', () => {
+    it('call leadRepository.createLead() and returns result.', async () => {
+      leadRepository.createLead.mockResolvedValue('someLead');
+      expect(leadRepository.createLead).not.toHaveBeenCalled();
+      const createLeadDto = {
+        name: 'kasra',
+        family_name: 'karami',
+        email: 'kasra_K2k@yahoo.com',
+        cellphone: '09183619290',
+      };
+      const result = await leadService.createLead(createLeadDto);
+      expect(leadRepository.createLead).toHaveBeenCalledWith(
+        createLeadDto,
+        false,
+      );
+      expect(result).toEqual('someLead');
     });
   });
 });
