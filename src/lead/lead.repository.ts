@@ -60,7 +60,7 @@ export class LeadRepository extends Repository<LeadEntity> {
     return await this.findOne(leadId);
   }
 
-  async getOldLeadToAssign() {
+  async getOldLeadToAssign(): Promise<LeadEntity> {
     return await this.findOne({
       where: { lead_manager: null, interest: null, deleted_at: null },
       order: { created_at: 'ASC' },

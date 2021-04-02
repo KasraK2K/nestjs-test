@@ -64,8 +64,8 @@ export class LeadController {
     return await this.leadService.getLeadById(leadId);
   }
 
-  @Get('/old/lead/to_ssign')
-  async getOldLeadToAssign() {
+  @Get('/old/lead/to_assign')
+  async getOldLeadToAssign(): Promise<LeadEntity> {
     return await this.leadService.getOldLeadToAssign();
   }
 

@@ -34,7 +34,7 @@ export class LeadService {
     return lead;
   }
 
-  async getOldLeadToAssign() {
+  async getOldLeadToAssign(): Promise<LeadEntity> {
     return await this.leadRepository.getOldLeadToAssign();
   }
 

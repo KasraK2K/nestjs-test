@@ -5,9 +5,10 @@ import { LeadService } from './lead.service';
 import { IPaginationOptions } from 'nestjs-typeorm-paginate';
 
 const mockLeadRepository = () => ({
+  createLead: jest.fn(),
   getAllLead: jest.fn(),
   getLeadById: jest.fn(),
-  createLead: jest.fn(),
+  getOldLeadToAssign: jest.fn(),
   softDeleteLead: jest.fn(),
   removeLead: jest.fn(),
 });
@@ -34,6 +35,26 @@ describe('LeadService', () => {
 
   it('should be defined', () => {
     expect(leadRepository).toBeDefined();
+  });
+
+  /* ------------------------------- createLead ------------------------------- */
+  describe('createLead', () => {
+    it('call leadRepository.createLead() and returns result.', async () => {
+      leadRepository.createLead.mockResolvedValue('someLead');
+      expect(leadRepository.createLead).not.toHaveBeenCalled();
+      const createLeadDto = {
+        name: 'kasra',
+        family_name: 'karami',
+        email: 'kasra_K2k@yahoo.com',
+        cellphone: '09183619290',
+      };
+      const result = await leadService.createLead(createLeadDto);
+      expect(leadRepository.createLead).toHaveBeenCalledWith(
+        createLeadDto,
+        false,
+      );
+      expect(result).toEqual('someLead');
+    });
   });
 
   /* ------------------------------- getAllLead ------------------------------- */
@@ -72,25 +93,18 @@ describe('LeadService', () => {
     });
   });
 
-  /* ------------------------------- createLead ------------------------------- */
-  describe('createLead', () => {
-    it('call leadRepository.createLead() and returns result.', async () => {
-      leadRepository.createLead.mockResolvedValue('someLead');
-      expect(leadRepository.createLead).not.toHaveBeenCalled();
-      const createLeadDto = {
-        name: 'kasra',
-        family_name: 'karami',
-        email: 'kasra_K2k@yahoo.com',
-        cellphone: '09183619290',
-      };
-      const result = await leadService.createLead(createLeadDto);
-      expect(leadRepository.createLead).toHaveBeenCalledWith(
-        createLeadDto,
-        false,
-      );
+  /* --------------------------- getOldLeadToAssign --------------------------- */
+  describe('getOldLeadToAssign', () => {
+    it('should get oldest lead to assign', async () => {
+      leadRepository.getOldLeadToAssign.mockResolvedValue('someLead');
+      expect(leadRepository.getOldLeadToAssign).not.toHaveBeenCalled();
+      const result = await leadService.getOldLeadToAssign();
+      expect(leadRepository.getOldLeadToAssign).toHaveBeenCalled();
       expect(result).toEqual('someLead');
     });
   });
+
+  /* ------------------------------- updateLead ------------------------------- */
 
   /* ----------------------------- softDeleteLead ----------------------------- */
   describe('softDeleteLead', () => {
@@ -127,4 +141,6 @@ describe('LeadService', () => {
       expect(leadRepository.removeLead).toHaveBeenCalledWith('1');
     });
   });
+
+  /* ------------------------------- bulkInsert ------------------------------- */
 });
