@@ -22,11 +22,13 @@ describe('LeadController', () => {
     leadService = module.get<LeadService>(LeadService);
   });
 
-  it('should be defined', () => {
-    expect(leadController).toBeDefined();
-  });
+  describe('defined', () => {
+    it('leadController should be defined', () => {
+      expect(leadController).toBeDefined();
+    });
 
-  it('should be defined', () => {
-    expect(leadService).toBeDefined();
+    it('leadService should be defined', () => {
+      expect(leadService).toBeDefined();
+    });
   });
 });

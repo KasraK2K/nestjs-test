@@ -37,12 +37,15 @@ describe('LeadService', () => {
     leadRepository = module.get<LeadRepository>(LeadRepository);
   });
 
-  it('should be defined', () => {
-    expect(leadService).toBeDefined();
-  });
+  /* ---------------------- leadService & leadRepository ---------------------- */
+  describe('defined', () => {
+    it('leadService should be defined', () => {
+      expect(leadService).toBeDefined();
+    });
 
-  it('should be defined', () => {
-    expect(leadRepository).toBeDefined();
+    it('leadRepository should be defined', () => {
+      expect(leadRepository).toBeDefined();
+    });
   });
 
   /* ------------------------------- createLead ------------------------------- */
