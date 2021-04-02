@@ -37,10 +37,10 @@ export class LeadManagerRepository extends Repository<LeadManagerEntity> {
     createLeadManagerDto: CreateLeadManagerDto,
   ): Promise<LeadManagerEntity> {
     const { name } = createLeadManagerDto;
-    const leadManager = new LeadManagerEntity();
+    const leadManager = this.create();
     _.assign(leadManager, { name });
     try {
-      return await this.save(leadManager);
+      return await leadManager.save();
     } catch (error) {
       if (error.code === '23505')
         throw new ConflictException('leadManager with this name already exist');

@@ -14,7 +14,7 @@ const mockLeadRepository = () => ({
   removeLead: jest.fn(),
 });
 
-const leadCredentialsDto = {
+const mockLeadCredentialsDto = {
   name: 'kasra',
   family_name: 'karami',
   email: 'kasra_K2k@yahoo.com',
@@ -53,9 +53,9 @@ describe('LeadService', () => {
     it('call leadRepository.createLead() and returns result.', async () => {
       leadRepository.createLead.mockResolvedValue('someLead');
       expect(leadRepository.createLead).not.toHaveBeenCalled();
-      const result = await leadService.createLead(leadCredentialsDto);
+      const result = await leadService.createLead(mockLeadCredentialsDto);
       expect(leadRepository.createLead).toHaveBeenCalledWith(
-        leadCredentialsDto,
+        mockLeadCredentialsDto,
         false,
       );
       expect(result).toEqual('someLead');
@@ -112,11 +112,11 @@ describe('LeadService', () => {
   /* ------------------------------- updateLead ------------------------------- */
   describe('updateLead', () => {
     it('update a lead', async () => {
-      leadRepository.updateLead.mockResolvedValue(leadCredentialsDto);
+      leadRepository.updateLead.mockResolvedValue(mockLeadCredentialsDto);
       expect(leadRepository.updateLead).not.toHaveBeenCalled();
-      const result = await leadService.updateLead('1', leadCredentialsDto);
+      const result = await leadService.updateLead('1', mockLeadCredentialsDto);
       expect(leadRepository.updateLead).toHaveBeenCalled();
-      expect(result).toEqual(leadCredentialsDto);
+      expect(result).toEqual(mockLeadCredentialsDto);
     });
   });
 

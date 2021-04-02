@@ -33,10 +33,10 @@ export class LeadRepository extends Repository<LeadEntity> {
     leadCredentialsDto: LeadCredentialsDto,
     debug: boolean = false,
   ): Promise<LeadEntity> {
-    const lead = new LeadEntity();
+    const lead = this.create();
     _.assign(lead, leadCredentialsDto);
     try {
-      await this.save(lead);
+      await lead.save();
     } catch (error) {
       if (debug) throw error;
       else if (error.code === '23505')
