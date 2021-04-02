@@ -54,7 +54,7 @@ describe('leadRepository', () => {
     });
 
     it('throws a internal server exception', () => {
-      save.mockRejectedValue({ code: '12312' });
+      save.mockRejectedValue({ code: '12312' }); // unhandled error code
       expect(leadRepository.createLead(mockLeadCredentialsDto)).rejects.toThrow(
         InternalServerErrorException,
       );
