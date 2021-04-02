@@ -46,11 +46,17 @@ export class LeadService {
   }
 
   async softDeleteLead(leadId: string): Promise<UpdateResult> {
-    return await this.leadRepository.softDeleteLead(leadId);
+    const result = await this.leadRepository.softDeleteLead(leadId);
+    if (result.affected === 0)
+      throw new NotFoundException(`Lead with ID "${leadId}" not found.`);
+    return result;
   }
 
   async removeLead(leadId: string): Promise<DeleteResult> {
-    return await this.leadRepository.removeLead(leadId);
+    const result = await this.leadRepository.removeLead(leadId);
+    if (result.affected === 0)
+      throw new NotFoundException(`Lead with ID "${leadId}" not found.`);
+    return result;
   }
 
   async bulkInsert(

@@ -8,6 +8,8 @@ const mockLeadRepository = () => ({
   getAllLead: jest.fn(),
   getLeadById: jest.fn(),
   createLead: jest.fn(),
+  softDeleteLead: jest.fn(),
+  removeLead: jest.fn(),
 });
 
 describe('LeadService', () => {
@@ -87,6 +89,42 @@ describe('LeadService', () => {
         false,
       );
       expect(result).toEqual('someLead');
+    });
+  });
+
+  /* ----------------------------- softDeleteLead ----------------------------- */
+  describe('softDeleteLead', () => {
+    it('call leadRepository.softDeleteLead() to set deleted_at for lead', async () => {
+      leadRepository.softDeleteLead.mockResolvedValue({ affected: 1 });
+      expect(leadRepository.softDeleteLead).not.toHaveBeenCalled();
+      await leadService.softDeleteLead('1');
+      expect(leadRepository.softDeleteLead).toHaveBeenCalledWith('1');
+    });
+
+    it('throws an error as lead could not found', async () => {
+      leadRepository.softDeleteLead.mockResolvedValue({ affected: 0 });
+      expect(leadRepository.softDeleteLead).not.toHaveBeenCalled();
+      expect(leadService.softDeleteLead('1')).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(leadRepository.softDeleteLead).toHaveBeenCalledWith('1');
+    });
+  });
+
+  /* ------------------------------- removeLead ------------------------------- */
+  describe('removeLead', () => {
+    it('call leadRepository.removeLead() to delete lead', async () => {
+      leadRepository.removeLead.mockResolvedValue({ affected: 1 });
+      expect(leadRepository.removeLead).not.toHaveBeenCalled();
+      await leadService.removeLead('1');
+      expect(leadRepository.removeLead).toHaveBeenCalledWith('1');
+    });
+
+    it('throws an error as lead could not found', async () => {
+      leadRepository.removeLead.mockResolvedValue({ affected: 0 });
+      expect(leadRepository.removeLead).not.toHaveBeenCalled();
+      expect(leadService.removeLead('1')).rejects.toThrow(NotFoundException);
+      expect(leadRepository.removeLead).toHaveBeenCalledWith('1');
     });
   });
 });
